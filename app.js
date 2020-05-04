@@ -51,8 +51,19 @@ async function getRequest() {
         // imageThumbnail: `https://cache.hiroba.dqx.jp/dq_resource/img/tokoyami/koushin/ico/1.png`,
         message: outputmsg,
       })
+      let time = new Date();
+    const Hours = time.getHours()
+const Minuts = time.getMinutes() 
+
+  if(Hours == 1){
     const responseLINENotify = await axios.request(config);
     console.log(responseLINENotify.data);
+    console.log("2");
+  }else{
+    console.log("huhun");
+  }
+
+
   } catch (error) {
     console.error(error);
   }
