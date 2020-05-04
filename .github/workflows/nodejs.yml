@@ -1,9 +1,9 @@
 name: LINE notify
 
 on:
-  push:
-    branches: [ master ]
-    # プッシュ時に動作する
+  schedule:
+  - cron:  '*/5 * * * *'
+  # 5分ごと # ここだけ変更
 
 jobs:
   build:
@@ -34,4 +34,4 @@ jobs:
     # Secret の LINE_TOKEN 値 を action.js に渡している
     # LINE Notify にメッセージが行く
     - name: LINE Notify app.js
-      run: LINE_TOKEN=${{secrets.LINE_TOKEN}} lineapp.js
+      run: LINE_TOKEN=${{secrets.LINE_TOKEN}} node lineapp.js
