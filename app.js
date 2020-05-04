@@ -2,6 +2,20 @@
 
 const axios = require('axios');
 const fs = require("fs"); //注: npm i 不要
+const qs = require('querystring');
+
+const LINE_NOTIFY_API_URL = 'https://notify-api.line.me/api/notify';
+const LINE_NOTIFY_TOKEN = process.env.LINE_TOKEN;
+
+let config = {
+    url: LINE_NOTIFY_API_URL,
+    method: 'post',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ' + LINE_NOTIFY_TOKEN
+    },
+    data: ''
+}
 
 // 実際にデータを取得する getRequest 関数
 async function getRequest() {
@@ -17,7 +31,7 @@ async function getRequest() {
     fs.writeFileSync(PATH,metal);
 
     let item,data = [];
-    let outputmsg = ''; 
+    let outputmsg = '\n'; 
 
 
 
@@ -32,7 +46,13 @@ async function getRequest() {
         }   
     }
     console.log(outputmsg)
-
+    config.data=qs.stringify({
+        // imageFullsize: `https://cache.hiroba.dqx.jp/dq_resource/img/tokoyami/koushin/ico/1.png`,
+        // imageThumbnail: `https://cache.hiroba.dqx.jp/dq_resource/img/tokoyami/koushin/ico/1.png`,
+        message: outputmsg,
+      })
+    const responseLINENotify = await axios.request(config);
+    console.log(responseLINENotify.data);
   } catch (error) {
     console.error(error);
   }
