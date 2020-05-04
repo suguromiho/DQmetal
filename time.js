@@ -1,8 +1,7 @@
 let time = getHours();
 //getMinutes() 
 
-
-if(getHours == 1){
+if(time == 1){
     console.log("2");
 }else{
     console.log("huhun");
