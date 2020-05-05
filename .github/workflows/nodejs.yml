@@ -2,7 +2,7 @@ name: LINE notify
 
 on:
   schedule:
-  - cron:  '*/360 * * * *'
+  - cron:  '00,30 * * * *'
   # 5分ごと # ここだけ変更
 
 jobs:
