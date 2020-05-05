@@ -34,34 +34,42 @@ async function getRequest() {
     let outputmsg = '\n'; 
 
 
-
     data = metal.split('<tr class="">');
 
-    for (let index = 1; index < data.length; index++) {
-       
+    let saveData = {}; //1. saveDataを定義
+
+   for (let index = 1; index < data.length; index++) {
+        //メタル発生時 
         item = data[index].split('class="pt0 pb0"');
         if(item[2] && item[2].indexOf('img') != -1){
             const time = item[1].match(/>\t\t\t\t\t\t\t\t\t\t\t(.*?)&nbsp/)[1];
-            outputmsg += time + '/' + 'メタル発生 \n';
-        }   
-    }
-    console.log(outputmsg)
+            outputmsg += time + '/' + 'メタル発生! \n';
+            saveData[time] = 'メタル発生!'; //saveDataに保存           
+        }
+  }
+  
+    console.log(saveData); //saveDataの中身確認
+    
+    // console.log(outputmsg)
     config.data=qs.stringify({
-        // imageFullsize: `https://cache.hiroba.dqx.jp/dq_resource/img/tokoyami/koushin/ico/1.png`,
-        // imageThumbnail: `https://cache.hiroba.dqx.jp/dq_resource/img/tokoyami/koushin/ico/1.png`,
+        imageFullsize: `http://www.4gamer.net/games/249/G024980/20140310011/TN/002.jpg`,
+        imageThumbnail: `http://www.4gamer.net/games/249/G024980/20140310011/TN/002.jpg`,
         message: outputmsg,
       })
-      let time = new Date();
-    const Hours = time.getHours()
-const Minuts = time.getMinutes() 
 
-  if(Hours == 1){
-    const responseLINENotify = await axios.request(config);
-    console.log(responseLINENotify.data);
-    console.log("2");
-  }else{
-    console.log("huhun");
-  }
+
+    let time = new Date();
+    let Hours = time.getHours()
+    let OneHourlater =Hours+1
+
+    let now = OneHourlater + ':' + '00'
+
+    if(saveData[now]){
+        responseLINENotify = await axios.request(config);
+     console.log(responseLINENotify.data);
+    }else{
+      console.log("ライン送らない");
+ }
 
 
   } catch (error) {
